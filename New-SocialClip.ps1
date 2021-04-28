@@ -19,13 +19,13 @@ function New-SocialClip {
     $coefficient = $width/$height
 
     if ($TikTok) {
-        $OutputFile = "TikTok_" + $OutputFile + ".mp4"
-        ffmpeg.exe -y -i $InputFile -vf "split [original][copy]; [copy] crop=ih*9/16:ih:iw/2-ow/2:0, scale=$($width):$([Math]::Ceiling(($coefficient * $width) / 2) * 2), gblur=sigma=$($BlurPercentage)[blurred]; [blurred][original]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2" $OutputFile
+        $OutputFileTikTok = "TikTok_" + $OutputFile + ".mp4"
+        ffmpeg.exe -y -i $InputFile -vf "split [original][copy]; [copy] crop=ih*9/16:ih:iw/2-ow/2:0, scale=$($width):$([Math]::Ceiling(($coefficient * $width) / 2) * 2), gblur=sigma=$($BlurPercentage)[blurred]; [blurred][original]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2" $OutputFileTikTok
     }
 
     if ($Instagram) {
-        $OutputFile = "Instagram_" + $OutputFile + ".mp4"
-        ffmpeg.exe -y -i $InputFile -vf "split [original][copy]; [copy] crop=$($height)*1/1:$($height):$($width)/2-ow/2:0, scale=$($width):$($width), gblur=sigma=$($BlurPercentage)[blurred]; [blurred][original]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2" $OutputFile
+        $OutputFileInstagram = "Instagram_" + $OutputFile + ".mp4"
+        ffmpeg.exe -y -i $InputFile -vf "split [original][copy]; [copy] crop=$($height)*1/1:$($height):$($width)/2-ow/2:0, scale=$($width):$($width), gblur=sigma=$($BlurPercentage)[blurred]; [blurred][original]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2" $OutputFileInstagram
     }
 
     if (!($Instagram -or $TikTok)) {Write-Error "Please provide -TikTok or -Instagram as a parameter."}
